@@ -4,11 +4,13 @@ using BookStoreMVC.Data;
 using BookStoreMVC.Areas.Identity.Data;
 using BookStoreMVC.Repositories.Interfaces;
 using BookStoreMVC.Repositories.Implementation;
+using BookStoreMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BookStoreMVCDBContextConnection") ?? throw new InvalidOperationException("Connection string 'BookStoreMVCDBContextConnection' not found.");
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddDbContext<BookStoreMVCDBContext>(options => options.UseSqlServer(connectionString));
 

@@ -1,0 +1,49 @@
+﻿@using BookStoreMVC.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BookStoreMVCUser> SignInManager
+@inject UserManager<BookStoreMVCUser> UserManager
+
+@model IEnumerable<UserWithRoleViewModel>
+
+@{
+    ViewData["Title"] = "Users List";
+}
+
+<h1>Users</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@user.UserId" class="bth btn-info">Details</a>
+                    @if(!user.Roles.Contains("Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <div class="btn btn-dark">Delete</div>
+                    }
+                </td>
+                <td>
+                    @if(user.Roles.Any())
+                    {
+                        @string.Join(", ",user.Roles);
+                    }
+                    else
+                    {
+                        <em>No roles</em>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

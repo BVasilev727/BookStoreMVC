@@ -8,5 +8,6 @@ namespace BookStoreMVC.Services
         Task<IdentityUser> GetUserByIdAsync(string userId);
         Task<bool> DeleteUserAsync(string userId);
         Task<bool> AssignRoleAsync(string userId, string role);
+        Task<IEnumerable<string>> GetRolesOfUser(string userId);
     }
 }
