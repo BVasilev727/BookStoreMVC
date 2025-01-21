@@ -1,0 +1,32 @@
+﻿
+@model IEnumerable<Video>
+
+@{
+    ViewData["Title"] = "VideoList";
+}
+<a asp-controller="Video" asp-action="Create">New video</a>
+
+<main class="col-md-10">
+@foreach(var video in Model)
+    {
+        <a asp-action="Details" asp-controller="Video" asp-route-videoId="@video.Id">
+
+            <div class="video-list">
+                <!-- Example Video Row -->
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="@video.ThumbnailURL" class="img-fluid rounded-start" alt="Video Thumbnail">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">@video.Title</h5>
+                                <p class="card-text"><small class="text-muted">@video.Likes likes</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </a>  
+}
+</main>

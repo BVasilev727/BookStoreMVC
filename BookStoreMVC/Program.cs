@@ -9,6 +9,8 @@ using BookStoreMVC.Services;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BookStoreMVCDBContextConnection") ?? throw new InvalidOperationException("Connection string 'BookStoreMVCDBContextConnection' not found.");
 
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<IVideoServices, VideoServices>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 

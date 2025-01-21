@@ -1,4 +1,5 @@
 ﻿using BookStoreMVC.Areas.Identity.Data;
+using BookStoreMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,4 +20,6 @@ public class BookStoreMVCDBContext : IdentityDbContext<BookStoreMVCUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+    public DbSet<Video> Videos { get; set; }
 }

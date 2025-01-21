@@ -4,6 +4,7 @@ using BookStoreMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreMVC.Migrations
 {
     [DbContext(typeof(BookStoreMVCDBContext))]
-    partial class BookStoreMVCDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250120123721_VideoTableCreate")]
+    partial class VideoTableCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,9 +98,6 @@ namespace BookStoreMVC.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
 
                     b.Property<string>("PostedByUser")
                         .IsRequired()
