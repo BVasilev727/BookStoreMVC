@@ -10,7 +10,7 @@
 }
 
 <h1>Users</h1>
-<table class="table table-striped">
+<table class="table table-striped text-white" >
     <thead>
         <tr>
             <th>Email</th>
@@ -21,19 +21,19 @@
         @foreach(var user in Model)
         {
             <tr>
-                <td>@user.Email</td>
+                <td class="text-white">@user.Email</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@user.UserId" class="bth btn-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@user.UserId" class="btn">Details</a>
                     @if(!user.Roles.Contains("Admin"))
                     {
                         <a asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-danger">Delete</a>
                     }
                     else
                     {
-                        <div class="btn btn-dark">Delete</div>
+                        <div id="deleteAdmin" class="btn btn-dark">Delete</div>
                     }
                 </td>
-                <td>
+                <td class="text-white">
                     @if(user.Roles.Any())
                     {
                         @string.Join(", ",user.Roles);
@@ -47,3 +47,9 @@
         }
     </tbody>
 </table>
+<script>
+    document.getElementById('deleteAdmin').addEventListener('click', function () {
+        // Show the alert when the button is clicked
+        alert('Cannnot delete admin');
+    });
+</script>

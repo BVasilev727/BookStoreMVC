@@ -2,6 +2,7 @@
 using BookStoreMVC.Repositories.Implementation;
 using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -16,6 +17,7 @@ namespace BookStoreMVC.Controllers
             _videoServices = videoServices;
             _userService = userService;
         }
+
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -23,6 +25,23 @@ namespace BookStoreMVC.Controllers
          
             return View(videos);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Index(string searchTerm)
+        {
+            IEnumerable<Video> videos;
+            if(!string.IsNullOrEmpty(searchTerm))
+            {
+                videos = await _videoServices.SearchForVideos(searchTerm);
+            }
+            else
+            {
+                videos = await _videoServices.GetAllVideosAsync();
+            }
+            return View(videos);
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> Details(string videoId)
         {

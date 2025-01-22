@@ -12,11 +12,18 @@ namespace BookStoreMVC.Repositories.Implementation
             _context = context;
         }
 
+        public async Task<IEnumerable<Video>> GetAllAsync(Func<Video, bool> predicate = null)
+        {
+            if(predicate == null)
+            {
+                return await _context.Videos.ToListAsync();
+            }
+            return _context.Videos.Where(predicate).ToList();
+        }
         public async Task<IEnumerable<Video>> GetAllAsync()
         {
             return await _context.Videos.ToListAsync();
         }
-
         public async Task<IEnumerable<Video>> GetAllVideosByUserAsync(string userId)
         {
             return await _context.Videos.Where(v => v.PostedByUser == userId).ToListAsync();

@@ -10,17 +10,73 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Global Dark Mode Styling */
+        body {
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* Light text */
+        }
+
+        a {
+            color: #bb86fc;
+            text-decoration:none/* Accent color for links */
+        }
+
+            a:hover {
+                color: #ff79c6;
+            }
+
+        .navbar {
+            background-color: #1f1f1f; /* Dark navbar background */
+        }
+
+            .navbar a {
+                color: #ffffff;
+            }
+
+        .btn {
+            background-color: #bb86fc; /* Accent color for buttons */
+            color: #121212; /* Dark text for contrast */
+            border: none;
+        }
+
+            .btn:hover {
+                background-color: #ff79c6; /* Slightly brighter button on hover */
+            }
+
+        .card {
+            background-color: #1e1e1e; /* Dark card background */
+            border: 1px solid #333333; /* Subtle border for cards */
+        }
+
+        .card-title,
+        .card-text {
+            color: #ffffff; /* Light text for cards */
+        }
+
+        .form-control {
+            background-color: #1e1e1e; /* Dark input fields */
+            color: #ffffff;
+            border: 1px solid #333333;
+        }
+
+            .form-control:focus {
+                background-color: #1e1e1e;
+                color: #ffffff;
+                border-color: #bb86fc;
+            }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">YouVideo</a>
                 @if(User.IsInRole("Admin"))
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                    <a class="navbar-brand text-white" asp-area="" asp-controller="User" asp-action="Index">Users</a>
                 }
-                <a class="navbar-brand" asp-area="" asp-controller="Video" asp-action="Index">Videos</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Video" asp-action="Index">Videos</a>
                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -37,11 +93,6 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - BookStoreMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

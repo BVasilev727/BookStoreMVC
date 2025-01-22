@@ -16,7 +16,7 @@ namespace BookStoreMVC.Services
         {
             return await _videoRepository.GetAllAsync();
         }
-        
+
         public async Task<IEnumerable<Video>> GetVideosByUserAsync(string userId)
         {
             return await _videoRepository.GetAllVideosByUserAsync(userId);
@@ -34,7 +34,7 @@ namespace BookStoreMVC.Services
 
         public async Task DeleteVideoAsync(string videoId)
         {
-            await _videoRepository.DeleteVideoAsync(videoId); 
+            await _videoRepository.DeleteVideoAsync(videoId);
         }
 
         public async Task UpdateVideoAsync(Video video)
@@ -45,6 +45,12 @@ namespace BookStoreMVC.Services
         public async Task<bool> ExistsAsync(string videoId)
         {
             return await _videoRepository.ExistsAsync(videoId);
+        }
+
+        public async Task<IEnumerable<Video>> SearchForVideos(string searchTerm)
+        {
+            return await _videoRepository.GetAllAsync(v => v.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+            || v.Description.Contains(searchTerm,StringComparison.OrdinalIgnoreCase));
         }
     }
 }
