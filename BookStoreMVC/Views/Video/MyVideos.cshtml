@@ -1,0 +1,55 @@
+﻿@using BookStoreMVC.Areas.Identity
+@using BookStoreMVC.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BookStoreMVCUser> SignInManager
+@model IEnumerable<Video>
+
+@{
+    ViewData["Title"] = "VideoList";
+}
+<div class="d-flex justify-content-evenly align-items-center mb-4">
+    <form class="d-flex" method="get" action="/Video/MyVideos">
+        <input type="text"
+               name="searchTerm"
+               class="form-control me-2"
+               placeholder="Search videos..."
+               value="@ViewBag.SearchQuery" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-controller="Video" asp-action="Create">
+            <div class="btn">
+                Upload new video
+            </div>
+        </a>
+    }
+</div>
+<div class="d-flex flex-row justify-content-around">
+
+    <main class="col-md-10">
+        @foreach (var video in Model)
+        {
+            <a asp-action="Details" asp-controller="Video" asp-route-videoId="@video.Id">
+
+                <div class="video-list">
+                    <!-- Example Video Row -->
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="@video.ThumbnailURL" class="img-fluid rounded-start" alt="Video Thumbnail">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@video.Title</h5>
+                                    <p class="card-text"><small class="text-muted">@video.Likes likes</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </main>
+
+</div>

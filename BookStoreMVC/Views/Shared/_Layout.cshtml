@@ -77,7 +77,11 @@
                     <a class="navbar-brand text-white" asp-area="" asp-controller="User" asp-action="Index">Users</a>
                 }
                 <a class="navbar-brand text-white" asp-area="" asp-controller="Video" asp-action="Index">Videos</a>
-               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand text-white" asp-area="" asp-controller="Video" asp-action="MyFavorites">My favorites</a>
+                }
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

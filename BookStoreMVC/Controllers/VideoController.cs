@@ -4,6 +4,7 @@ using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 
 namespace BookStoreMVC.Controllers
@@ -12,10 +13,13 @@ namespace BookStoreMVC.Controllers
     {
         private readonly IVideoServices _videoServices;
         private readonly IUserService _userService;
-        public VideoController(IVideoServices videoServices, IUserService userService)
+        private readonly IFavoriteService _favoriteService;
+
+        public VideoController(IVideoServices videoServices, IUserService userService, IFavoriteService favoriteService)
         {
             _videoServices = videoServices;
             _userService = userService;
+            _favoriteService = favoriteService;
         }
 
         [AllowAnonymous]
@@ -62,6 +66,8 @@ namespace BookStoreMVC.Controllers
                 PostedByUserWithName = videoPostedByUser.UserName,
                 Description = video.Description
             };
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.IsFavorited = await _favoriteService.IsFavoriteAsync(userId, videoId);
             return View(videoViewModel);
         }
         [Authorize]
@@ -168,6 +174,83 @@ namespace BookStoreMVC.Controllers
             video.Likes+=1;
             await _videoServices.UpdateVideoAsync(video);
             return RedirectToAction("Details",video.Id);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Favorite(string videoId)
+        {
+            if (string.IsNullOrEmpty(videoId)) return BadRequest();
+
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(userId == null)
+            {
+                return Unauthorized();
+            }
+            await _favoriteService.AddToFavoriteAsync(userId, videoId);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Unfavorite(string videoId)
+        {
+            if (string.IsNullOrEmpty(videoId)) return BadRequest();
+
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            await _favoriteService.RemoveFromFavorites(userId, videoId);
+            return Ok();
+        }
+        [Authorize]
+        public async Task<IActionResult> MyFavorites()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var videoPostedByUser = await _userService.GetUserByIdAsync(userId);
+            if (userId == null) { return BadRequest(); }
+
+            var favorites = await _favoriteService.GetUserFavorites(userId);
+            List<VideoViewModel> favoriteViews = new List<VideoViewModel>();
+            foreach (var favorite in favorites)
+            {
+                VideoViewModel videoViewModel = new VideoViewModel
+                {
+                    Id = favorite.Id,
+                    Title = favorite.Title,
+                    ThumbnailURL = favorite.ThumbnailURL,
+                    Likes = favorite.Likes,
+                    VideoLink = favorite.VideoLink,
+                    PostedByUser = favorite.PostedByUser,
+                    PostedByUserWithName = videoPostedByUser.UserName,
+                    Description = favorite.Description
+                };
+                favoriteViews.Add(videoViewModel);
+            }
+
+            return View(favoriteViews);
+        }
+        [Authorize]
+        public async Task<IActionResult> MyVideos(string searchTerm)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userId==null)
+            {
+                return NotFound();
+            }
+            
+            var myVideos = await _videoServices.GetVideosByUserAsync(userId);
+            if(searchTerm==null)
+            {
+                return View(myVideos);
+            }
+
         }
     }
 }
