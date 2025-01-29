@@ -52,5 +52,11 @@ namespace BookStoreMVC.Services
             return await _videoRepository.GetAllAsync(v => v.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
             || v.Description.Contains(searchTerm,StringComparison.OrdinalIgnoreCase));
         }
+
+        public async Task<IEnumerable<Video>> SearchForVideosFromUser(string searchTerm, string userId)
+        {
+            return await _videoRepository.GetAllAsync(v => (v.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+            || v.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) && v.PostedByUser == userId);
+        }
     }
 }

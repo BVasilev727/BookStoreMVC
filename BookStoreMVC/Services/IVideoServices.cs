@@ -12,5 +12,6 @@ namespace BookStoreMVC.Services
         Task UpdateVideoAsync(Video video);
         Task<bool> ExistsAsync(string videoId);
         Task<IEnumerable<Video>> SearchForVideos(string seachTerm);
+        Task<IEnumerable<Video>> SearchForVideosFromUser(string searchTerm, string userId);
     }
 }

@@ -237,6 +237,20 @@ namespace BookStoreMVC.Controllers
             return View(favoriteViews);
         }
         [Authorize]
+        public async Task<IActionResult> MyVideos()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            var myVideos = await _videoServices.GetVideosByUserAsync(userId);
+            return View(myVideos);
+        }
+        
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> MyVideos(string searchTerm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -244,12 +258,16 @@ namespace BookStoreMVC.Controllers
             {
                 return NotFound();
             }
-            
-            var myVideos = await _videoServices.GetVideosByUserAsync(userId);
-            if(searchTerm==null)
+            IEnumerable<Video> videos;
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                return View(myVideos);
+                videos = await _videoServices.SearchForVideosFromUser(searchTerm, userId);
             }
+
+            else {
+                videos = await _videoServices.GetVideosByUserAsync(userId);
+
+            } return View(videos);
 
         }
     }
