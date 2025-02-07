@@ -15,6 +15,6 @@
             Id = Guid.NewGuid().ToString();
         }
 
-        public ICollection<FavoriteVideo> FavoriteVideos { get; set; }
+        public ICollection<FavoriteVideo>? FavoriteVideos { get; set; }
     }
 }

@@ -100,14 +100,28 @@ namespace BookStoreMVC.Controllers
             return View(video);
         }
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Edit(string videoId)
         {
             var video = await _videoServices.GetVideoAsync(videoId);
+
+            var user = await _userService.GetUserByIdAsync(video.PostedByUser);
+            var videoViewModel = new VideoViewModel
+            {
+                Id = video.Id,
+                Title = video.Title,
+                Description = video.Description,
+                PostedByUser = video.PostedByUser,
+                Likes = video.Likes,
+                VideoLink = video.VideoLink,
+                ThumbnailURL = video.ThumbnailURL,
+                PostedByUserWithName = user.UserName,
+            };
             if(video == null)
             {
                 return NotFound();
             }
-            return View(video);
+            return View(videoViewModel);
         }
 
         [Authorize]
@@ -127,14 +141,26 @@ namespace BookStoreMVC.Controllers
                 PostedByUser = video.PostedByUser,
                 Likes = video.Likes,
                 VideoLink = video.VideoLink,
-                ThumbnailURL = video.ThumbnailURL
+                ThumbnailURL = video.ThumbnailURL,
+                FavoriteVideos = video.FavoriteVideos
             };
-            if(ModelState.IsValid)
+            var videoViewModel = new VideoViewModel
+            {
+                Id = video.Id,
+                Title = video.Title,
+                Description = video.Description,
+                PostedByUser = video.PostedByUser,
+                Likes = video.Likes,
+                VideoLink = video.VideoLink,
+                ThumbnailURL = video.ThumbnailURL,
+                PostedByUserWithName = user.UserName,
+            };
+            if (ModelState.IsValid)
             {
                 await _videoServices.UpdateVideoAsync(editedVideo);
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",  new { videoId = editedVideo.Id });
             }
-            return View(video);
+            return View(videoViewModel);
         }
         [Authorize]
         public async Task<IActionResult> Delete(string videoId)

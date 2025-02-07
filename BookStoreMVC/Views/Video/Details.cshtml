@@ -103,16 +103,12 @@
                 url: '@Url.Action("Favorite")', // URL to the Like action
                 method: 'POST',
                 data: { videoId: videoId }, // Send the video ID
-                ok: function (response) {
-                    if (response.success) {
-                        alert('added to favorites');
-                        location.reload;                
-                    } else {
-                        alert('Failed to favorite the video.');
-                        location.reload;
-                    }
+                success: function (response) {
+                   alert('Added to favorites');
+                    location.reload();       
                 },
                 error: function () {
+                    alert('Failed to favorite the video.');
                     location.reload();
                 }
             });
@@ -126,15 +122,12 @@
                 url: '@Url.Action("Unfavorite")', // URL to the Like action
                 method: 'POST',
                 data: { videoId: videoId }, // Send the video ID
-                ok: function (response) {
-                    if (response.success) {
-                        location.reload;
-                    } else {
-                        alert('Failed to unfavorite the video.');
-                        location.reload;
-                    }
+                success: function (response) {
+                    alert('Removed from favorites');
+                    location.reload();
                 },
                 error: function () {
+                    alert('Failed to remove from favorites.');
                     location.reload();
                 }
             });
