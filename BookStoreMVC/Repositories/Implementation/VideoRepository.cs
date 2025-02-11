@@ -58,5 +58,10 @@ namespace BookStoreMVC.Repositories.Implementation
         {
             return await _context.Videos.AnyAsync(v => v.Id == videoId);
         }
+        public async Task<Video> GetRandomVideoAsync()
+        {
+            var videos = await _context.Videos.ToListAsync();
+            return videos.OrderBy(v => Guid.NewGuid()).FirstOrDefault();
+        }
     }
 }

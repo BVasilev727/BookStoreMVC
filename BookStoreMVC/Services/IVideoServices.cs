@@ -13,5 +13,7 @@ namespace BookStoreMVC.Services
         Task<bool> ExistsAsync(string videoId);
         Task<IEnumerable<Video>> SearchForVideos(string seachTerm);
         Task<IEnumerable<Video>> SearchForVideosFromUser(string searchTerm, string userId);
+
+        Task<Video> GetRandomVideo();
     }
 }

@@ -58,5 +58,10 @@ namespace BookStoreMVC.Services
             return await _videoRepository.GetAllAsync(v => (v.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
             || v.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) && v.PostedByUser == userId);
         }
+
+        public async Task<Video> GetRandomVideo()
+        {
+            return await _videoRepository.GetRandomVideoAsync();
+        }
     }
 }

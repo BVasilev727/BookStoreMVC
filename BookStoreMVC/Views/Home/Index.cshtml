@@ -1,10 +1,73 @@
-﻿@{
+﻿@using BookStoreMVC.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model VideoViewModel
+
+@inject SignInManager<BookStoreMVCUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
+@if (!SignInManager.IsSignedIn(User))
+{
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>User Id: @ViewData["UserId"]</p>
-    
-</div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Welcome Message Box -->
+            <div class="col-md-5">
+                <div class=" p-4 text-center">
+                    <h3>Welcome To YouVideo</h3>
+                    <p>
+
+                        Your one stop for fresh videos!
+                        Here's a recommended video from us. Feel free to check it out.
+                        <br></br>
+                        If you wish to upload your own videos, save to favorites and much more (WIP)
+                        you have to
+                        <br></br> <a asp-area="Identity" asp-page="/Account/Register">Register</a> or
+                        <a asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Video Box -->
+            <div class="col-md-5">
+                <div class="p-4 text-center">
+                    <h3>@Model.Title</h3>
+                    <div class=" p-3 d-inline-block mt-3">
+                        <a asp-action="Details" asp-controller="Video" asp-route-videoId="@Model.Id">
+                            <img src=@Model.ThumbnailURL class="img-fluid" style="min-width: 300px; min-height: 150px;" alt="Video Thumbnail">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Welcome Message Box -->
+            <div class="col-md-5">
+                <div class=" p-4 text-center">
+                    <h3>Welcome Back @User.Identity.Name</h3>
+                    <p>
+                        Here's a recommended video from us. Feel free to check it out.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Video Box -->
+            <div class="col-md-5">
+                <div class="p-4 text-center">
+                    <h3>@Model.Title</h3>
+                    <div class=" p-3 d-inline-block mt-3" >
+                        <a asp-action="Details" asp-controller="Video" asp-route-videoId="@Model.Id">
+                        <img src=@Model.ThumbnailURL class="img-fluid" style="min-width: 300px; min-height: 150px;" alt="Video Thumbnail">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

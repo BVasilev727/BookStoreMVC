@@ -33,11 +33,11 @@
             <a asp-action="Details" asp-controller="Video" asp-route-videoId="@video.Id">
 
                 <div class="video-list">
-                    <!-- Example Video Row -->
+                    
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="@video.ThumbnailURL" class="img-fluid rounded-start" alt="Video Thumbnail">
+                                <img src="@video.ThumbnailURL" class="img-fluid rounded-start" style="min-width: 300px; max-width:300px;" alt="Video Thumbnail">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

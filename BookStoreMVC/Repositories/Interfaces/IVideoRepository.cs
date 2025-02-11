@@ -20,5 +20,7 @@ namespace BookStoreMVC.Repositories.Interfaces
         Task DeleteVideoAsync(string videoId);
         //Check if user has already created the same video
         Task<bool> ExistsAsync(string videoId);
+        //Get random video
+        Task<Video> GetRandomVideoAsync();
     }
 }
